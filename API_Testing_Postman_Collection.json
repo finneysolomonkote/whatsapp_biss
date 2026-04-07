@@ -1,0 +1,757 @@
+{
+  "info": {
+    "name": "WhatsApp Business Automation Platform - Complete API Collection",
+    "description": "Complete API collection for testing all microservices including contacts, conversations, messages, campaigns, workflows, payments (Razorpay), webhooks, and analytics",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{auth_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "{{SUPABASE_URL}}/functions/v1",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "contact_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "conversation_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "message_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "campaign_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "workflow_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "order_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "payment_id",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Contacts Service",
+      "item": [
+        {
+          "name": "Get All Contacts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/contacts-service?page=1&limit=50&search=&tags=",
+              "host": ["{{base_url}}"],
+              "path": ["contacts-service"],
+              "query": [
+                {"key": "page", "value": "1"},
+                {"key": "limit", "value": "50"},
+                {"key": "search", "value": ""},
+                {"key": "tags", "value": ""}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Single Contact",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/contacts-service/{{contact_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["contacts-service", "{{contact_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Create Contact",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  const response = pm.response.json();",
+                  "  pm.collectionVariables.set('contact_id', response.data.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"first_name\": \"John\",\n  \"last_name\": \"Doe\",\n  \"phone\": \"+919876543210\",\n  \"email\": \"john.doe@example.com\",\n  \"tags\": [\"customer\", \"vip\"],\n  \"custom_fields\": {\n    \"company\": \"Acme Corp\",\n    \"industry\": \"Technology\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/contacts-service",
+              "host": ["{{base_url}}"],
+              "path": ["contacts-service"]
+            }
+          }
+        },
+        {
+          "name": "Update Contact",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"first_name\": \"John\",\n  \"last_name\": \"Smith\",\n  \"email\": \"john.smith@example.com\",\n  \"tags\": [\"customer\", \"premium\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/contacts-service/{{contact_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["contacts-service", "{{contact_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete Contact",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/contacts-service/{{contact_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["contacts-service", "{{contact_id}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Conversations Service",
+      "item": [
+        {
+          "name": "Get All Conversations",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/conversations-service?page=1&limit=50&status=open",
+              "host": ["{{base_url}}"],
+              "path": ["conversations-service"],
+              "query": [
+                {"key": "page", "value": "1"},
+                {"key": "limit", "value": "50"},
+                {"key": "status", "value": "open"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Single Conversation with Messages",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/conversations-service/{{conversation_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["conversations-service", "{{conversation_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Create Conversation",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  const response = pm.response.json();",
+                  "  pm.collectionVariables.set('conversation_id', response.data.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"contact_id\": \"{{contact_id}}\",\n  \"status\": \"open\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/conversations-service",
+              "host": ["{{base_url}}"],
+              "path": ["conversations-service"]
+            }
+          }
+        },
+        {
+          "name": "Update Conversation Status",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"closed\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/conversations-service/{{conversation_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["conversations-service", "{{conversation_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete Conversation",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/conversations-service/{{conversation_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["conversations-service", "{{conversation_id}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Messages Service",
+      "item": [
+        {
+          "name": "Get Messages by Conversation",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/messages-service?conversation_id={{conversation_id}}&page=1&limit=100",
+              "host": ["{{base_url}}"],
+              "path": ["messages-service"],
+              "query": [
+                {"key": "conversation_id", "value": "{{conversation_id}}"},
+                {"key": "page", "value": "1"},
+                {"key": "limit", "value": "100"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Single Message",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/messages-service/{{message_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["messages-service", "{{message_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Send Message",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  const response = pm.response.json();",
+                  "  pm.collectionVariables.set('message_id', response.data.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"conversation_id\": \"{{conversation_id}}\",\n  \"contact_id\": \"{{contact_id}}\",\n  \"content\": \"Hello! How can I help you today?\",\n  \"direction\": \"outbound\",\n  \"status\": \"sent\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/messages-service",
+              "host": ["{{base_url}}"],
+              "path": ["messages-service"]
+            }
+          }
+        },
+        {
+          "name": "Update Message Status",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"read\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/messages-service/{{message_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["messages-service", "{{message_id}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Campaigns Service",
+      "item": [
+        {
+          "name": "Get All Campaigns",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/campaigns-service?page=1&limit=50&status=",
+              "host": ["{{base_url}}"],
+              "path": ["campaigns-service"],
+              "query": [
+                {"key": "page", "value": "1"},
+                {"key": "limit", "value": "50"},
+                {"key": "status", "value": ""}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Campaign by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/campaigns-service/{{campaign_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["campaigns-service", "{{campaign_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Campaign Statistics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/campaigns-service/{{campaign_id}}/stats",
+              "host": ["{{base_url}}"],
+              "path": ["campaigns-service", "{{campaign_id}}", "stats"]
+            }
+          }
+        },
+        {
+          "name": "Create Campaign",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  const response = pm.response.json();",
+                  "  pm.collectionVariables.set('campaign_id', response.data.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Summer Sale 2024\",\n  \"description\": \"Promotional campaign for summer sale\",\n  \"message_template\": \"Hi {{name}}! Check out our summer sale with up to 50% off. Visit us today!\",\n  \"status\": \"draft\",\n  \"scheduled_at\": \"2024-06-01T10:00:00Z\",\n  \"target_segment\": {\n    \"tags\": [\"customer\", \"active\"]\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/campaigns-service",
+              "host": ["{{base_url}}"],
+              "path": ["campaigns-service"]
+            }
+          }
+        },
+        {
+          "name": "Update Campaign",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Summer Sale 2024 - Extended\",\n  \"status\": \"scheduled\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/campaigns-service/{{campaign_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["campaigns-service", "{{campaign_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete Campaign",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/campaigns-service/{{campaign_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["campaigns-service", "{{campaign_id}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Workflows Service",
+      "item": [
+        {
+          "name": "Get All Workflows",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/workflows-service?page=1&limit=50&status=",
+              "host": ["{{base_url}}"],
+              "path": ["workflows-service"],
+              "query": [
+                {"key": "page", "value": "1"},
+                {"key": "limit", "value": "50"},
+                {"key": "status", "value": ""}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Workflow by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/workflows-service/{{workflow_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["workflows-service", "{{workflow_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Create Workflow",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  const response = pm.response.json();",
+                  "  pm.collectionVariables.set('workflow_id', response.data.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Welcome Message Workflow\",\n  \"description\": \"Send welcome message to new contacts\",\n  \"trigger_type\": \"message_received\",\n  \"trigger_config\": {},\n  \"actions\": [\n    {\n      \"type\": \"send_message\",\n      \"config\": {\n        \"message\": \"Welcome! Thanks for reaching out.\"\n      }\n    },\n    {\n      \"type\": \"add_tag\",\n      \"config\": {\n        \"tag\": \"welcomed\"\n      }\n    }\n  ],\n  \"status\": \"draft\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/workflows-service",
+              "host": ["{{base_url}}"],
+              "path": ["workflows-service"]
+            }
+          }
+        },
+        {
+          "name": "Create Keyword Workflow",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Pricing Inquiry Auto-Response\",\n  \"description\": \"Automatically respond to pricing inquiries\",\n  \"trigger_type\": \"keyword\",\n  \"trigger_config\": {\n    \"keyword\": \"pricing\"\n  },\n  \"actions\": [\n    {\n      \"type\": \"send_message\",\n      \"config\": {\n        \"message\": \"Thanks for your interest! Our pricing starts at $99/month. Visit https://example.com/pricing for details.\"\n      }\n    }\n  ],\n  \"status\": \"active\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/workflows-service",
+              "host": ["{{base_url}}"],
+              "path": ["workflows-service"]
+            }
+          }
+        },
+        {
+          "name": "Update Workflow",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"active\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/workflows-service/{{workflow_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["workflows-service", "{{workflow_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete Workflow",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/workflows-service/{{workflow_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["workflows-service", "{{workflow_id}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Payments Service (Razorpay)",
+      "item": [
+        {
+          "name": "Create Payment Order",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "  const response = pm.response.json();",
+                  "  pm.collectionVariables.set('order_id', response.data.order_id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 999,\n  \"currency\": \"INR\",\n  \"receipt\": \"receipt_12345\",\n  \"notes\": {\n    \"plan\": \"premium\",\n    \"duration\": \"monthly\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/payments-service/create-order",
+              "host": ["{{base_url}}"],
+              "path": ["payments-service", "create-order"]
+            }
+          }
+        },
+        {
+          "name": "Verify Payment",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"razorpay_order_id\": \"{{order_id}}\",\n  \"razorpay_payment_id\": \"pay_ExamplePaymentId\",\n  \"razorpay_signature\": \"signature_example\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/payments-service/verify-payment",
+              "host": ["{{base_url}}"],
+              "path": ["payments-service", "verify-payment"]
+            }
+          }
+        },
+        {
+          "name": "Get Payment History",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/payments-service/payment-history?page=1&limit=50",
+              "host": ["{{base_url}}"],
+              "path": ["payments-service", "payment-history"],
+              "query": [
+                {"key": "page", "value": "1"},
+                {"key": "limit", "value": "50"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Process Refund",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"payment_id\": \"{{payment_id}}\",\n  \"amount\": 999\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/payments-service/refund",
+              "host": ["{{base_url}}"],
+              "path": ["payments-service", "refund"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Webhooks Service",
+      "item": [
+        {
+          "name": "WhatsApp Webhook (Incoming Message)",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"object\": \"whatsapp_business_account\",\n  \"entry\": [\n    {\n      \"id\": \"WHATSAPP_BUSINESS_ACCOUNT_ID\",\n      \"changes\": [\n        {\n          \"field\": \"messages\",\n          \"value\": {\n            \"messages\": [\n              {\n                \"from\": \"+919876543210\",\n                \"id\": \"wamid.example123\",\n                \"timestamp\": \"1234567890\",\n                \"text\": {\n                  \"body\": \"Hello, I need help with my order\"\n                },\n                \"type\": \"text\"\n              }\n            ]\n          }\n        }\n      ]\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/webhooks-service/whatsapp",
+              "host": ["{{base_url}}"],
+              "path": ["webhooks-service", "whatsapp"]
+            }
+          }
+        },
+        {
+          "name": "Razorpay Webhook (Payment Captured)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "X-Razorpay-Signature", "value": "signature_example"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"event\": \"payment.captured\",\n  \"payload\": {\n    \"payment\": {\n      \"entity\": {\n        \"id\": \"pay_ExamplePaymentId\",\n        \"order_id\": \"{{order_id}}\",\n        \"amount\": 99900,\n        \"currency\": \"INR\",\n        \"status\": \"captured\"\n      }\n    }\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/webhooks-service/razorpay",
+              "host": ["{{base_url}}"],
+              "path": ["webhooks-service", "razorpay"]
+            }
+          }
+        },
+        {
+          "name": "Register Custom Webhook",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"https://your-app.com/webhook/receive\",\n  \"events\": [\"message.sent\", \"conversation.created\", \"campaign.completed\"],\n  \"provider\": \"custom\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/webhooks-service/register",
+              "host": ["{{base_url}}"],
+              "path": ["webhooks-service", "register"]
+            }
+          }
+        },
+        {
+          "name": "Get Registered Webhooks",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/webhooks-service/register",
+              "host": ["{{base_url}}"],
+              "path": ["webhooks-service", "register"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Analytics Service",
+      "item": [
+        {
+          "name": "Get Dashboard Summary",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/analytics-service/dashboard",
+              "host": ["{{base_url}}"],
+              "path": ["analytics-service", "dashboard"]
+            }
+          }
+        },
+        {
+          "name": "Get Message Statistics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/analytics-service/message-stats?start_date=2024-01-01T00:00:00Z&end_date=2024-12-31T23:59:59Z",
+              "host": ["{{base_url}}"],
+              "path": ["analytics-service", "message-stats"],
+              "query": [
+                {"key": "start_date", "value": "2024-01-01T00:00:00Z"},
+                {"key": "end_date", "value": "2024-12-31T23:59:59Z"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Campaign Performance",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/analytics-service/campaign-performance",
+              "host": ["{{base_url}}"],
+              "path": ["analytics-service", "campaign-performance"]
+            }
+          }
+        },
+        {
+          "name": "Get Workflow Performance",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/analytics-service/workflow-performance",
+              "host": ["{{base_url}}"],
+              "path": ["analytics-service", "workflow-performance"]
+            }
+          }
+        },
+        {
+          "name": "Get Contact Growth",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/analytics-service/contact-growth",
+              "host": ["{{base_url}}"],
+              "path": ["analytics-service", "contact-growth"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
